@@ -18,7 +18,7 @@ router.get('/random', function(req, res) {
     // --------------- Code for getting randomly selected recipes --- //
     // -------------------------------------------------------------- //
     unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/random?number=10")
-    .header("X-Mashape-Key", "yABkY0V2i3mshSsQNwSFzMYBfEk2p1egJWhjsncEHkROPEitFh")
+    .header("X-Mashape-Key", "SPOONACULARKEY")
     .header("X-Mashape-Host", "spoonacular-recipe-food-nutrition-v1.p.mashape.com")
     .end(function (result) {
 
