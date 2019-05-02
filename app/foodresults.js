@@ -11,8 +11,7 @@ let unirest = require('unirest');
 
 // --------------- Requiring RapidAPI Connect for Zomato API requests -------- //
 const RapidAPI = require('rapidapi-connect');
-let rapid = new RapidAPI("default-application_5b838370e4b0e54f757f3197", 
-                            "d223e628-0674-4181-82bc-fcc8663a4171");
+let rapid = new RapidAPI("RAPIDAPIKEY");
 
 // ---------------------------------------------- //
 // --------------- Food Result Page Request ----- //
@@ -35,7 +34,7 @@ router.get('/foodres', (req, res) => {
     // ----------------------------------------------------------------------------------- //
 
     unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/" + foodItem + "/information")
-    .header("X-Mashape-Key", "yABkY0V2i3mshSsQNwSFzMYBfEk2p1egJWhjsncEHkROPEitFh")
+    .header("X-Mashape-Key", "SPOONACULARAPIKEY")
     .header("X-Mashape-Host", "spoonacular-recipe-food-nutrition-v1.p.mashape.com")
     .end(function (result) {
 
@@ -89,7 +88,7 @@ router.get('/foodres', (req, res) => {
 
         rapid.call('Zomato', 'searchCity', { 
             'searchQuery': location,
-            'apiKey': '50bf937e9da1a151e70e4fda5f754951 '
+            'apiKey': 'ZOMATOKEY '
         
         }).on('success', (payload)=>{
 
@@ -103,7 +102,7 @@ router.get('/foodres', (req, res) => {
                 // ----------------------------------------------------------------------------------- //
 
                 rapid.call('Zomato', 'getCities', { 
-                    'apiKey': '50bf937e9da1a151e70e4fda5f754951 ',
+                    'apiKey': 'ZOMATOKEY ',
                     'cityIds': [String(cityID)]
                 
                 }).on('success', (payload)=>{
@@ -118,7 +117,7 @@ router.get('/foodres', (req, res) => {
 
                 rapid.call('Zomato', 'getCuisines', { 
                     'cityId': cityID,
-                    'apiKey': '50bf937e9da1a151e70e4fda5f754951 '
+                    'apiKey': 'ZOMATOKEY '
                 
                 }).on('success', (payload)=>{
                     payload.result.cuisines.forEach(result => {                    
@@ -169,7 +168,7 @@ router.get('/foodres', (req, res) => {
                     // ----------------------------------------------------------------------------------- //
 
                     rapid.call('Zomato', 'search', { 
-                        'apiKey': '50bf937e9da1a151e70e4fda5f754951 ',
+                        'apiKey': 'ZOMATOKEY ',
                         'entityType': 'city',
                         'count': '20',
                         'entityId': cityID,
