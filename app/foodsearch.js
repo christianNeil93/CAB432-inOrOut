@@ -24,7 +24,7 @@ router.get('/food', function(req, res){
     // -------------- Code for getting recipe results based on search query -------------- //
     // ----------------------------------------------------------------------------------- //
     unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search?number=50&offset=0&query=" + foodQuery)
-    .header("X-Mashape-Key", "yABkY0V2i3mshSsQNwSFzMYBfEk2p1egJWhjsncEHkROPEitFh")
+    .header("X-Mashape-Key", "SPOONACULARKEY")
     .header("X-Mashape-Host", "spoonacular-recipe-food-nutrition-v1.p.mashape.com")
     .end(function (result) {
 
