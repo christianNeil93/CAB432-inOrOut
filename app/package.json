@@ -1,0 +1,21 @@
+{
+  "name": "foodapp",
+  "version": "1.0.0",
+  "description": "Starting Google Maps Integration",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "npm": "^6.4.1",
+    "path": "^0.12.7",
+    "pug": "^2.0.3",
+    "rapidapi-connect": "0.0.6",
+    "request": "^2.88.0",
+    "unirest": "^0.5.1"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,26 @@
+html
+    head
+        <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+        link(rel="stylesheet", href="/static/stylesheet.css")
+        script(src="index.js")
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="jquery.imageready.js"></script>
+
+    title Food Inspo
+    body   
+        h1 In or Out?
+     
+        #anyResults
+        if anyResults
+            p Displaying results for <b>#{food}</b>&emsp;&emsp;<em>Want to <a href="/">search again?</a></em>
+            - for (var i = 0; i < 50; i++) {                                                      
+                    #img-wrap 
+                        a(href='foodres?result=' + recipeIds[i] + '&loc=brisbane')
+                            img.img-thumb(src=recipePics[i] id='recipe' + i)                                                       
+                        p #{recipes[i]}                                   
+            - }
+        else
+            p No results found for <b>#{food}</b>&emsp;&emsp;<em>Want to <a href="/">search again?</a></em>                            
+            #img-div
+                img.bg(src="static/images/nosearchresults.jpg", alt="no search results image")
+

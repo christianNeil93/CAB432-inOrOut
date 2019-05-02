@@ -1,0 +1,275 @@
+html
+    head    
+        <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">          
+        link(rel="stylesheet", href="/static/bootstrap.css")
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
+        script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")        
+        link(rel="stylesheet", href="/static/stylesheet.css")
+
+    title Food Inspo
+    body   
+        .container-fluid    
+            if anyCuisine     
+                .row.justify-content-md-center
+                    .col-sm-4
+
+                    .col-sm-4
+                        h1 In or Out?        
+                        p <em>Want to <a href="/">search again?</a></em> 
+
+                    .col-sm-4
+                            form#locationSearch(action="foodres?result=" + foodItem, method="post", autocomplete="off")
+                                input(type="search", name="location", placeholder="Refine search by location")
+                                input(type="submit", value="Submit")
+
+
+                br
+
+                .row.justify-content-md-center
+                    .col-sm-4                    
+                        h3 I want food like... <b>#{title}     </b>
+                        br
+                        img.scalable(src=image, alt=title)   
+
+                        if prepTime !== undefined
+                            h4 Prep Time: #{prepTime} mins
+                        else 
+                            h4 Prep Time not available
+                        if cookTime !== undefined
+                            h4 Cooking Time: #{cookTime} mins
+                        else 
+                            h4 Cooking Time not available                    
+
+                        if anyCuisine       
+
+                            p <b>Interested in a Cuisine? Choose an option below</b> 
+                                                                
+                            - for (var i = 0; i < numCuisines; i++) {
+                                a.cuisineSelected(href="#" id=i) &ensp; #{cuisines[i]} &ensp;
+                                    //- p= cuisines[i]
+                            - } 
+                            br
+                        else 
+                            br
+                            p No cuisines found for selected food <br> <i>Searching for restaurants using recipe name...</i>
+                            br                
+                        br
+                        
+                        p <b> Recipe Instructions:</b>
+                        ol.centerScreen
+                            each val in instructs
+                                li= val
+                        br
+
+                        p <b> Ingredients:</b>
+                        ul.centerScreen
+                            each val in ingredients
+                                li= val
+
+                    .col-sm-4
+                        if missingCuisineLocation
+                            h3 Showing General Restaurant List
+                            h4 No Restaurants with Related Cuisines Found
+                        else 
+                            h3 Related Restaurant Details
+                        br
+                        .panel-group
+                            .panel
+                                .panel-heading
+                                    h4.panel-title
+                                        a(data-toggle="collapse" href="#collapse1") Restaurants (Click to expand) 
+                                    #collapse1.panel-collapse.collapse                     
+                                        - for (var i = 0; i < numRests; i++) {
+                                            ul.list-group
+                                                .hover_img
+                                                    a.restLink(href="#" id=i)= restNames[i]
+                                                        span.imgSpan
+                                                            img(src=restImgs[i], alt="")
+                                            li.list-group-item= restCuisines[i]
+                                            li.list-group-item= restRatings[i]
+                                            li.list-group-item= 'Address: ' + restAddresses[i]
+                                        - }
+                                    .panel-footer 
+                                        a(href="#" onclick="newMap(); return false;") Hide all &ensp;&ensp;&ensp;
+                                        a(href="#" onclick="initMap(); return false;") Show all
+
+                    .col-sm-4
+                        h3 Displaying results for #{cityName}
+                        h4#displaySelectedCuisine
+                        br
+                        .mav-div
+                            #map
+            
+            else 
+                .row.justify-content-md-center
+                    .col-sm-4
+
+                    .col-sm-4
+                        h1 In or Out?        
+                        p <em>Want to <a href="/">search again?</a></em> 
+
+                    .col-sm-4
+
+                .row.justify-content-md-center
+                    br
+                    .col-sm-6
+                        h3 I like the look of... <b>#{title}     </b>
+                        br
+                        img.scalable(src=image, alt=title)   
+
+                        if prepTime !== undefined
+                            h3 Prep Time: #{prepTime} mins
+                        else 
+                            h3 Prep Time not available
+                        if cookTime !== undefined
+                            h3 Cooking Time: #{cookTime} mins
+                        else 
+                            h3 Cooking Time not available    
+
+                    .col-sm-6
+                        br                                                                        
+                        p <b> Recipe Instructions:</b>
+                        ol.centerScreen
+                            each val in instructs
+                                li= val
+                        br
+
+                        p <b> Ingredients:</b>
+                        ul.centerScreen
+                            each val in ingredients
+                                li= val  
+                br
+                br
+                br
+                br
+                a(href="/" alt="search again")
+                    h3 No cuisine tagged was provided for your search, want to search again?              
+
+                    //- .col-sm-6
+
+
+        script.
+            let map, bounds, boundsAll;
+            var numRests = "#{numRests}", restNames, restLats, restLngs, restAddresses;
+            restNames = "#{restNames}".split(',');
+            restLats = "#{restLats}".split(',');
+            restLngs = "#{restLngs}".split(',');
+            restAddresses = "#{restAddresses}".split(',');
+
+            function initMap() {     
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: -25.734968, lng: 134.489563},
+                    zoom: 4
+                });
+
+                boundsAll = new google.maps.LatLngBounds();
+
+                let latNum, lngNum;   
+
+                for (var i = 0; i < numRests; i++) {
+                    latNum = parseFloat(restLats[i]);
+                    lngNum = parseFloat(restLngs[i]);
+                    let latlng = new google.maps.LatLng(latNum, lngNum);
+                    boundsAll.extend(latlng);
+                    addMarker({coords:{lat: latNum,lng: lngNum}, content: restNames[i]});
+                }
+
+                map.fitBounds(boundsAll);
+            }
+
+            function newMap() {
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: -25.734968, lng: 134.489563},
+                    zoom: 4
+                });    
+                bounds = new google.maps.LatLngBounds();         
+            }
+
+            function addRestaurantMarker(index, bounds, map) {                
+                let latNum = parseFloat(restLats[index]);
+                let lngNum = parseFloat(restLngs[index]);
+
+                addMarker({coords:{lat: latNum,lng: lngNum}, content: restNames[index]});
+
+                let latlng = new google.maps.LatLng(latNum, lngNum);
+
+                bounds.extend(latlng);
+
+                map.fitBounds(bounds);
+            }
+
+            function displayCuisineMarkers(selectedCuisine, bounds, map) {                
+                google.maps.Map.prototype.clearMarkers = function() {
+                    for(var i=0; i < this.markers.length; i++){
+                        this.markers[i].setMap(null);
+                    }
+                    this.markers = new Array();
+                };
+
+                newMap();
+            
+                let restCuisines = "#{restCuisines}".toUpperCase();
+                let restCuisineList = restCuisines.split('CUISINES');                
+                let selected = selectedCuisine.trim();
+                let latNum, lngNum;
+
+                for (var i = 0; i < numRests; i++) {
+                    testStr = restCuisineList[i+1];
+                    latNum = parseFloat(restLats[i]);
+                    lngNum = parseFloat(restLngs[i]);
+
+                    if (testStr.includes(selected)) {                    
+                        let latlng = new google.maps.LatLng(latNum, lngNum);
+                        addMarker({coords:{lat: latNum,lng: lngNum}, content: restNames[i]});
+                    }                    
+                }
+                map.fitBounds(boundsAll);
+            }
+                     
+            function addMarker(props) {
+                let marker = new google.maps.Marker({
+                    position:props.coords,
+                    map:map            
+                });
+
+                if(props.content) {
+                    let infoWindow = new google.maps.InfoWindow({
+                        content:props.content
+                    });
+
+                    marker.addListener('mouseover', function(){
+                        infoWindow.open(map, marker);
+                    });
+
+                    marker.addListener('mouseout', function(){
+                        infoWindow.close();
+                    });    
+
+                    marker.addListener('click', function(){
+                        infoWindow.close();
+                    });
+                }
+            }
+
+            $(function() {
+                $('.cuisineSelected').click(function() {
+                    $('#displaySelectedCuisine').html('Filtering for <b>' + $(this).text() + '</b>food');
+                    var selected = $(this).text();
+                    selected = selected.toUpperCase();
+                    displayCuisineMarkers(selected, bounds, map);
+                    map.fitBounds(boundsAll);
+                });
+
+                $('a.restLink').click(function() {
+                    addRestaurantMarker(this.id, bounds, map);
+                    map.fitBounds(bounds);
+                });
+            });
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqNKAIUCoudzWZq5lB4IVJ0tedhRqCwuo&callback=initMap" async defer></script>
+    
+
+
+                
+            
+

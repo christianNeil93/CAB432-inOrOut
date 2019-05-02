@@ -1,0 +1,52 @@
+html
+    head
+        <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+        link(rel="stylesheet", href="/static/bootstrap.css")
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
+        script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")        
+        link(rel="stylesheet", href="/static/stylesheet.css")
+    title Food Inspo
+    body           
+        h1 In or Out?
+        h2 See anything you like ; )
+
+        .container
+            #myCarousel.carousel.slide(data-ride="carousel")                
+                ol.carousel-indicators
+                    - for (var i = 0; i < 10; i++) {
+                        if i == 0
+                            li.active(data-target="#myCarousel" data-slide-to=i)
+                        else
+                            li(data-target="#myCarousel" data-slide-to=i)
+                    - }
+
+                .carousel-inner
+                    - for (var i = 0; i < 10; i++) {
+                        if i == 0
+                            .item.active
+                                a(href='foodres?result=' + recipeIDs[i] + '&loc=brisbane')
+                                    img(src=recipePics[i], alt=recipeNames[i])
+                                    .carousel-caption
+                                        p #{recipeNames[i]}
+                        else  
+                            .item
+                                a(href='foodres?result=' + recipeIDs[i] + '&loc=brisbane')
+                                    img(src=recipePics[i], alt=recipeNames[i])
+                                    .carousel-caption
+                                        p #{recipeNames[i]}
+                    - }
+                        
+                a.left.carousel-control(href="#myCarousel" data-slide="prev")
+                    span.glyphicon.glyphicon-chevron-left
+                    span.sr-only Previous
+                a.right.carousel-control(href="#myCarousel" data-slide="next")
+                    span.glyphicon.glyphicon-chevron-right
+                    span.sr-only Next
+
+        a(href="/random")
+            h2 Click here for more random results
+        a(href="/")
+            h3 Or go back home
+
+
+

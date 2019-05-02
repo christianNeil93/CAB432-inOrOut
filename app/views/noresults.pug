@@ -1,0 +1,16 @@
+tml
+    head
+        <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+        <script src="https://storage.googleapis.com/code-snippets/rapidapi.min.js"></script>        
+        link(rel="stylesheet", href="/static/stylesheet.css")
+    title Food Inspo
+    body   
+        
+        //img.logo(src="static/images/apple.png", alt="")
+        h1 No results found ; (
+
+        p No location results found for <b>#{location}</b>&emsp;&emsp;<em>Want to</em> 
+            a(href="foodres?result=" + foodItem + "&loc=") search again?                            
+            #img-div
+                img.bg(src="static/images/nosearchresults.jpg", alt="no search results image")
+

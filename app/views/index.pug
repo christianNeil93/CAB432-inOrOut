@@ -1,0 +1,24 @@
+html
+    head
+        <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+        <script src="https://storage.googleapis.com/code-snippets/rapidapi.min.js"></script>        
+        link(rel="stylesheet", href="/static/stylesheet.css")
+    title Food Inspo
+    body       
+        h1 In or Out?
+
+        .expandSearch
+            form.foodSearch(action="", method="post", autocomplete="off")
+                input(type="search", name="food_search", placeholder="What are you hungry for?")
+                input(type="submit", value="Submit")
+                
+        a(href="/random") 
+            br
+            br
+            h3 Can't decide? Click here!        
+        br
+        br
+
+        #banner
+            img(src="static/images/banner.jpg", alt="banner photo")
+
